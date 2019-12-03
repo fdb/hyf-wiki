@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-ro
 import ViewPage from './ViewPage';
 import EditPage from './EditPage';
 import AllPages from './AllPages';
+import AllTagsPage from './AllTagsPage';
+import TagPage from './TagPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,6 +32,8 @@ class App extends React.Component {
             <Route path="/wiki/:slug" component={ViewPage} />
             <Route path="/edit/:slug" component={EditPage} />
             <Route path="/all" component={AllPages} />
+            <Route path="/tags/:tag" component={TagPage} />
+            <Route path="/tags" component={AllTagsPage} />
             <Route path="/">
               <Redirect to="/wiki/home" />
             </Route>
@@ -40,6 +44,7 @@ class App extends React.Component {
             <Link to="/wiki/home">Home</Link>
             <Link to="/wiki/about">About</Link>
             <Link to="/all">All Pages</Link>
+            <Link to="/tags">All Tags</Link>
           </div>
         </footer>
       </Router>

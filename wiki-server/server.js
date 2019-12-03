@@ -13,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const DATA_DIR = 'data';
+const TAG_RE = /#\w+/g;
 
 function slugToPath(slug) {
   const filename = `${slug}.md`;
@@ -56,18 +57,35 @@ app.get('/api/pages/all', async (req, res) => {
   return jsonOK(res, { pages });
 });
 
+app.get('/api/tags/all', async (req, res) => {
+  let filenames = await readDir(DATA_DIR);
+  filenames = filenames.map(f => path.join(DATA_DIR, f));
+  const tags = new Set();
+  const promises = filenames.map(async f => {
+    const body = await readFile(f, 'utf-8');
+    const matches = body.match(TAG_RE);
+    matches.forEach(tag => tags.add(tag.substring(1)));
+  });
+  await Promise.all(promises);
+  return jsonOK(res, { tags: Array.from(tags) });
+});
+
 app.get('/api/tags/:tag', async (req, res) => {
-  const TAG_RE = /#(\w+)/;
   const tag = req.params.tag;
+  const fullTag = `#${tag}`;
   let filenames = await readDir(DATA_DIR);
   filenames = filenames.map(f => path.join(DATA_DIR, f));
   const promises = filenames.map(async f => {
     const body = await readFile(f, 'utf-8');
-    return TAG_RE.match(body);
+    const matches = body.match(TAG_RE);
+    if (matches && matches.includes(fullTag)) {
+      return path.parse(f).name;
+    }
   });
   const results = await Promise.all(promises);
-  console.log('QUERY', q);
-  return jsonOK(res, { q });
+  const pages = results.filter(f => f);
+  console.log('QUERY', tag, pages);
+  return jsonOK(res, { tag, pages });
 });
 
 const port = process.env.PORT || 5000;

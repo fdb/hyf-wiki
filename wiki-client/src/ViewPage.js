@@ -1,7 +1,6 @@
 import React from 'react';
-import marked from 'marked';
-import { sanitize } from 'dompurify';
 import { Link } from 'react-router-dom';
+import { renderMarkdown } from './util';
 
 const PAGE_STATE_LOADING = 'loading';
 const PAGE_STATE_OK = 'ok';
@@ -29,7 +28,7 @@ export default class ViewPage extends React.Component {
     const json = await res.json();
     if (json.status && json.status === 'ok') {
       const body = json.body;
-      const html = sanitize(marked(body));
+      const html = renderMarkdown(body);
       this.setState({ pageState: PAGE_STATE_OK, body, html });
     } else {
       const errorMessage = json.message && json.message;
