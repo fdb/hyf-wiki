@@ -84,7 +84,6 @@ app.get('/api/tags/:tag', async (req, res) => {
   });
   const results = await Promise.all(promises);
   const pages = results.filter(f => f);
-  console.log('QUERY', tag, pages);
   return jsonOK(res, { tag, pages });
 });
 
