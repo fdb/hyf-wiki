@@ -18,7 +18,7 @@ export default class EditPage extends React.Component {
 
   async componentDidMount() {
     const { slug } = this.props.match.params;
-    const res = await fetch(`http://localhost:5000/api/page/${slug}`);
+    const res = await fetch(`/api/page/${slug}`);
     const json = await res.json();
     if (json.status && json.status === 'ok') {
       const body = json.body;
@@ -40,7 +40,7 @@ export default class EditPage extends React.Component {
   async _onSave() {
     const { slug } = this.props.match.params;
     const { body } = this.state;
-    const res = await fetch(`http://localhost:5000/api/page/${slug}`, {
+    const res = await fetch(`/api/page/${slug}`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'

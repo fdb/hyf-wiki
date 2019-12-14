@@ -12,7 +12,7 @@ export default class AllTagsPage extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await fetch('http://localhost:5000/api/tags/all');
+    const res = await fetch('/api/tags/all');
     const json = await res.json();
     if (json.status && json.status === 'ok') {
       const tags = json.tags;

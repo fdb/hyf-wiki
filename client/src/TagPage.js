@@ -13,7 +13,7 @@ export default class TagPage extends React.Component {
 
   async componentDidMount() {
     const { tag } = this.props.match.params;
-    const res = await fetch(`http://localhost:5000/api/tags/${tag}`);
+    const res = await fetch(`/api/tags/${tag}`);
     const json = await res.json();
     if (json.status && json.status === 'ok') {
       const pages = json.pages;

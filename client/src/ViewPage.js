@@ -24,7 +24,7 @@ export default class ViewPage extends React.Component {
 
   async _loadPage() {
     const { slug } = this.props.match.params;
-    const res = await fetch(`http://localhost:5000/api/page/${slug}`);
+    const res = await fetch(`/api/page/${slug}`);
     const json = await res.json();
     if (json.status && json.status === 'ok') {
       const body = json.body;

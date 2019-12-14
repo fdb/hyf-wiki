@@ -12,7 +12,7 @@ export default class AllPages extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await fetch('http://localhost:5000/api/pages/all');
+    const res = await fetch('/api/pages/all');
     const json = await res.json();
     if (json.status && json.status === 'ok') {
       const pages = json.pages;
