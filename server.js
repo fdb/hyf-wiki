@@ -11,6 +11,7 @@ const readDir = util.promisify(fs.readdir);
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 const DATA_DIR = 'data';
 const TAG_RE = /#\w+/g;
@@ -28,7 +29,7 @@ function jsonError(res, message) {
   res.json({ status: 'error', message });
 }
 
-app.get('/', (req, res) => res.send('Hello World!'));
+// app.get('/', (req, res) => res.send('Hello World!'));
 
 app.get('/api/page/:slug', async (req, res) => {
   const filename = slugToPath(req.params.slug);
@@ -85,6 +86,10 @@ app.get('/api/tags/:tag', async (req, res) => {
   const results = await Promise.all(promises);
   const pages = results.filter(f => f);
   return jsonOK(res, { tag, pages });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 const port = process.env.PORT || 5000;

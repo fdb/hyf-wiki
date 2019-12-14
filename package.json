@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd ../wiki-client && npm install && npm run build"
   },
   "license": "MIT",
   "dependencies": {
