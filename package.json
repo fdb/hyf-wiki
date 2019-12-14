@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "heroku-postbuild": "cd ../wiki-client && npm install && npm run build"
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "license": "MIT",
   "dependencies": {
