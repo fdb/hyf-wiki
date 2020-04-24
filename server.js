@@ -4,22 +4,22 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const util = require('util');
 const fs = require('fs');
-const readFile = util.promisify(fs.readFile);
+//const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const readDir = util.promisify(fs.readdir);
+
+
+const { readFile } = require('fs').promises;
+
+const { slugToPath } = require('./slug-utils');
+const { DATA_DIR } = require('./settings');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-const DATA_DIR = 'data';
 const TAG_RE = /#\w+/g;
-
-function slugToPath(slug) {
-  const filename = `${slug}.md`;
-  return path.join(DATA_DIR, filename);
-}
 
 function jsonOK(res, data) {
   res.json({ status: 'ok', ...data });
